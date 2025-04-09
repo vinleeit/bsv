@@ -179,7 +179,7 @@ class MainWindow(QMainWindow):
                 f'Success!\nFile is saved at:\n{save_path}'
             )
         except Exception as err:
-            dialogs.show_information_dialog(f'Error:\n{err}')
+            dialogs.show_error_dialog(f'Error:\n{err}')
 
 
 if __name__ == '__main__':
