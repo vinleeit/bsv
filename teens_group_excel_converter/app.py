@@ -20,7 +20,7 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle('Teens Group Excel Converter')
 
-        self.pandasView = QTableView(self)
+        self.pandasView = QTableView()
         self.pandasView.resize(800, 500)
         self.pandasView.horizontalHeader().setStretchLastSection(True)
         self.pandasView.setAlternatingRowColors(True)
@@ -29,14 +29,14 @@ class MainWindow(QMainWindow):
         )
 
         # Layouts
-        self.mainLayout = QVBoxLayout(self)
+        self.mainLayout = QVBoxLayout()
         self.mainLayout.addWidget(self.pandasView)
 
-        self.exportSectionLayout = self.__create_export_section_layout()
+        self.actionSectionLayout = self.__create_export_section_layout()
 
-        self.l = QVBoxLayout(self)
+        self.l = QVBoxLayout()
         self.l.addLayout(self.mainLayout)
-        self.l.addLayout(self.exportSectionLayout)
+        self.l.addLayout(self.actionSectionLayout)
 
         widget = QWidget(self)
         widget.setLayout(self.l)
@@ -44,7 +44,7 @@ class MainWindow(QMainWindow):
 
     def __create_export_section_layout(self) -> QLayout:
         # Load CSV Section
-        loadCSVSectionLayout = QHBoxLayout(self)
+        loadCSVSectionLayout = QHBoxLayout()
 
         loadCsvButton = QPushButton(self)
         loadCsvButton.setText('Load CSV File')
@@ -52,7 +52,7 @@ class MainWindow(QMainWindow):
         loadCSVSectionLayout.addWidget(loadCsvButton)
 
         # Directory section
-        directorySectionLayout = QHBoxLayout(self)
+        directorySectionLayout = QHBoxLayout()
 
         selectSaveDirLabel = QLabel(self)
         selectSaveDirLabel.setText('Directory:')
@@ -76,15 +76,17 @@ class MainWindow(QMainWindow):
         directorySectionLayout.addWidget(selectSaveDirButton)
 
         # Export section
-        exportSectionLayout = QHBoxLayout(self)
+        exportSectionLayout = QHBoxLayout()
 
-        convertCSVButton = QPushButton(self)
-        convertCSVButton.setText('Export')
-        convertCSVButton.clicked.connect(self.export)
-        exportSectionLayout.addWidget(convertCSVButton)
+        exportCSVButton = QPushButton(self)
+        exportCSVButton.setText('Export')
+        exportCSVButton.clicked.connect(self.export)
+        exportCSVButton.setDisabled(True)
+        self.exportCSVButton = exportCSVButton
+        exportSectionLayout.addWidget(exportCSVButton)
 
         # Layout
-        actionLayout = QVBoxLayout(self)
+        actionLayout = QVBoxLayout()
         actionLayout.addLayout(loadCSVSectionLayout)
         actionLayout.addLayout(directorySectionLayout)
         actionLayout.addLayout(exportSectionLayout)
@@ -105,6 +107,8 @@ class MainWindow(QMainWindow):
             self.original_workdir = os.path.dirname(fullpath)
             if not self.selectSaveDirField.text():
                 self.selectSaveDirField.setText(self.original_workdir)
+
+            self.exportCSVButton.setDisabled(False)
 
             self.resetDirButton.setDisabled(
                 not self.original_workdir or self.original_workdir == self.selectSaveDirField.text(),
