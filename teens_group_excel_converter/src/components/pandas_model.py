@@ -14,15 +14,7 @@ class PandasModel(QtCore.QAbstractTableModel):
 
     @property
     def dataframe(self) -> pd.DataFrame:
-        return self.__dataframe
-
-    @property
-    def filename(self) -> pd.DataFrame:
-        return self.__filename
-
-    @property
-    def workdir(self) -> pd.DataFrame:
-        return self.__workdir
+        return self.__dataframe.copy()
 
     @override
     def rowCount(self, parent=QtCore.QModelIndex()) -> int:
