@@ -17,7 +17,7 @@ Using Go2rtc to stream RTMP stream to:
 Install the necessary dependencies:
 
 ```bash
-sudo apt update && sudo apt install wget github
+sudo apt update && sudo apt install wget github -y
 ```
 
 Clone the repository from github:
@@ -54,7 +54,7 @@ The script will run the following tasks:
 Install UFW:
 
 ```bash
-sudo ufw update && sudo apt install ufw
+sudo ufw update && sudo apt install ufw -y
 ```
 
 Setup:
@@ -67,8 +67,8 @@ sudo ufw enable
 Add permissions:
 
 ```bash
-sudo ufw add openssh # Port SSH 22
-sudo ufw add https # Port HTTPS 443
+sudo ufw allow openssh # Port SSH 22
+sudo ufw allow https # Port HTTPS 443
 ```
 
 ### Setup TLS Certificate
@@ -78,12 +78,15 @@ sudo ufw add https # Port HTTPS 443
 Install OpenSSL:
 
 ```bash
-sudo ufw update && sudo apt install openssl
+sudo apt update && sudo apt install openssl -y
 ```
 
 Create the certificate:
 
 ```bash
+# Create the cert folder to store the tls certificate
+mkdir ./cert -p
+
 # Flags:
 #   -newkey rsa:4096: use 4096 bit RSA key for the certificate
 #   -x509: self signed certificate
@@ -95,5 +98,3 @@ openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out ./certs/My
 # Update permission
 chmod 400 ./certs/MyKey.key
 ```
-
-
