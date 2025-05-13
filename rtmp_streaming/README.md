@@ -85,7 +85,7 @@ Create the certificate:
 
 ```bash
 # Create the cert folder to store the tls certificate
-mkdir ./cert -p
+mkdir ./certs -p
 
 # Flags:
 #   -newkey rsa:4096: use 4096 bit RSA key for the certificate

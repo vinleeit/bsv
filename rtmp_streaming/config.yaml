@@ -1,5 +1,10 @@
 streams:
-  main: "exec:libcamera-vid -t 0 --inline -o -"
+  main: exec:ffmpeg -re -i video.mp4 -c:v libx264 -preset ultrafast -tune zerolatency -b:v 2000k -c:a libopus -b:a 128k -ar 48000 -ac 2 -f rtsp {output}
+  youtube: exec:ffmpeg -re -i video.mp4 -c:v libx264 -preset ultrafast -tune zerolatency -c:a aac -f rtsp {output}
+
+publish:
+  youtube:
+  - rtmp://a.rtmp.youtube.com/live2/<youtube-stream-key>
 
 api:
   listen: ":1984"    # default ":1984", HTTP API port ("" - disabled)
@@ -13,10 +18,6 @@ api:
   tls_key: "./certs/MyKey.key"         # default "", PEM-encoded private key for HTTPS
   unix_listen: "/tmp/go2rtc.sock"  # default "", unix socket listener for API
 
-# publish:
-#   main:
-#   - rtmps://xxx.rtmp.youtube.com/live2/<stream-key>
-
 rtsp:
   listen: ":8554"
-  default_query: "video"
+  default_query: "video&audio"
