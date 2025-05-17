@@ -21,3 +21,35 @@ api:
 rtsp:
   listen: ":8554"
   default_query: "video&audio"
+  username: ""
+  password: ""
+
+srtp:
+  listen: ":8443"
+
+ffmpeg:
+  bin: ffmpeg
+  global: "-hide_banner"
+  file: "-re -stream_loop -1 -i {input}"
+  http: "-fflags nobuffer -flags low_delay -i {input}"
+  rtsp: "-fflags nobuffer -flags low_delay -timeout 5000000 -user_agent go2rtc/ffmpeg -rtsp_transport tcp -i {input}"
+  output: "-user_agent ffmpeg/go2rtc -rtsp_transport tcp -f rtsp {output}"
+  # ... different presets for codecs
+
+hass:
+  config: ""
+
+log:
+  format: ""
+  level: info
+
+ngrok:
+  command: ""
+
+webrtc:
+  listen: ":8555"
+  candidates: []
+  ice_servers:
+    - urls: [ stun:stun.l.google.com:19302 ]
+      username: ""
+      credential: ""
